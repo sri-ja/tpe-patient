@@ -1,20 +1,26 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import StatCard from "./StatCard";
 import PerformanceStat from "./PerformanceStat";
 
-interface TempleClimbCompleteProps {
+interface ExerciseCompleteProps {
   stepsClimbed: number;
   timeTaken: string;
   averageSpeed: string;
   isPersonalBest: boolean;
 }
 
-const TempleClimbComplete: React.FC<TempleClimbCompleteProps> = ({
+const ExerciseComplete: React.FC<ExerciseCompleteProps> = ({
   stepsClimbed,
   timeTaken,
   averageSpeed,
   isPersonalBest,
 }) => {
+  const navigate = useNavigate();
+
+  const handleReturn = () => {
+    navigate('/');
+  };
   return (
     <div className="flex overflow-hidden flex-col bg-white">
       <div className="flex flex-col justify-center items-center px-20 py-20 bg-zinc-300 max-md:px-5 max-md:max-w-full">
@@ -60,7 +66,10 @@ const TempleClimbComplete: React.FC<TempleClimbCompleteProps> = ({
               You're getting stronger each day
             </p>
           </div>
-          <button className="flex flex-col justify-center items-center px-16 py-3 mx-8 mt-6 text-base font-medium text-center text-white bg-blue-500 rounded-xl shadow-[0px_4px_6px_rgba(74,144,226,0.2)] max-md:px-5 max-md:mr-2.5 max-md:max-w-full">
+          <button 
+            onClick={handleReturn}
+            className="flex flex-col justify-center items-center px-16 py-3 mx-8 mt-6 text-base font-medium text-center text-white bg-blue-500 rounded-xl shadow-[0px_4px_6px_rgba(74,144,226,0.2)] max-md:px-5 max-md:mr-2.5 max-md:max-w-full"
+          >
             <div className="flex gap-9 w-56 max-w-full">
               <span className="grow shrink w-[164px]">Return to Dashboard</span>
               <img
@@ -77,4 +86,4 @@ const TempleClimbComplete: React.FC<TempleClimbCompleteProps> = ({
   );
 };
 
-export default TempleClimbComplete;
+export default ExerciseComplete;

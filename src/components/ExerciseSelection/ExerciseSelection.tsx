@@ -4,7 +4,7 @@ import { ExerciseContent } from "./ExerciseContent";
 import { ExerciseGoal } from "./ExerciseGoal";
 import { StartButton } from "./StartButton";
 
-export const ClimbingExerciseCard: React.FC = () => {
+const ExerciseSelection: React.FC = () => {
   return (
     <div className="flex overflow-hidden flex-col bg-white">
       <div className="flex flex-col items-center px-20 pt-14 pb-1 bg-zinc-300 max-md:px-5 max-md:max-w-full">
@@ -28,3 +28,5 @@ export const ClimbingExerciseCard: React.FC = () => {
     </div>
   );
 };
+
+export default ExerciseSelection;

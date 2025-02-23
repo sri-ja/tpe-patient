@@ -1,8 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export const StartButton: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/exercise'); // Replace with your actual exercise page route
+  };
+
   return (
-    <button className="flex flex-col justify-center items-center px-16 py-3 mx-6 mt-2 text-base font-medium text-center text-white bg-blue-500 rounded-xl shadow-[0px_4px_6px_rgba(74,144,226,0.2)] max-md:px-5 max-md:mr-2.5 max-md:max-w-full">
+    <button 
+      onClick={handleClick}
+      className="flex flex-col justify-center items-center px-16 py-3 mx-6 mt-2 text-base font-medium text-center text-white bg-blue-500 rounded-xl shadow-[0px_4px_6px_rgba(74,144,226,0.2)] max-md:px-5 max-md:mr-2.5 max-md:max-w-full"
+    >
       <div className="flex gap-5 max-w-full w-[149px]">
         <div className="grow shrink w-[104px]">Start Exercise</div>
         <img

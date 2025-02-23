@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const StartSessionButton: React.FC = () => {
+  const navigate = useNavigate();
+
   const handleStartSession = () => {
-    console.log("Starting a new session");
+    navigate('/exercise-list');
   };
 
   return (

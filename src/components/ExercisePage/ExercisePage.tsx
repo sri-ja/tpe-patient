@@ -1,11 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import MetricCard from "./MetricCard";
 import ProgressBar from "./ProgressBar";
 import PerformanceCard from "./PerformanceCard";
 import VirtualEnvironment from "./VirtualEnvironment";
 import AdditionalMetrics from "./AdditionalMetrics";
 
-const TempleStairsTrainingMode: React.FC = () => {
+const ExercisePage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleEndExercise = () => {
+    navigate('/exercise-complete'); // Adjust this path based on your routing configuration
+  };
   return (
     <div className="flex overflow-hidden flex-col bg-white">
       <div className="flex flex-col p-6 w-full bg-gray-900 max-md:px-5 max-md:max-w-full">
@@ -72,7 +78,10 @@ const TempleStairsTrainingMode: React.FC = () => {
             <AdditionalMetrics />
           </div>
         </div>
-        <button className="self-end px-2.5 py-3 mt-16 max-w-full text-base font-semibold text-center text-white bg-red-600 rounded-xl shadow-[0px_4px_6px_rgba(220,38,38,0.2)] w-[145px] max-md:pr-5 max-md:mt-10 max-md:mr-1">
+        <button 
+          onClick={handleEndExercise}
+          className="self-end px-2.5 py-3 mt-16 max-w-full text-base font-semibold text-center text-white bg-red-600 rounded-xl shadow-[0px_4px_6px_rgba(220,38,38,0.2)] w-[145px] max-md:pr-5 max-md:mt-10 max-md:mr-1"
+        >
           End Exercise
         </button>
       </div>
@@ -80,4 +89,4 @@ const TempleStairsTrainingMode: React.FC = () => {
   );
 };
 
-export default TempleStairsTrainingMode;
+export default ExercisePage;

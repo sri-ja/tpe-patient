@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import ExerciseGrid from "./ExerciseGrid";
 
 const exercises = [
@@ -50,6 +51,14 @@ const exercises = [
 ];
 
 const ExerciseSelection: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleExerciseClick = (exercise: typeof exercises[0]) => {
+    navigate(`/exercise-details/${exercise.title.toLowerCase().replace(/\s+/g, '-')}`, {
+      state: { exercise }
+    });
+  };
+
   return (
     <div className="flex overflow-hidden flex-col pb-7 bg-white">
       <div className="flex flex-col justify-center px-7 py-4 w-full bg-zinc-300 max-md:px-5 max-md:max-w-full">
@@ -61,13 +70,13 @@ const ExerciseSelection: React.FC = () => {
             Choose from our collection of prescribed exercises
           </p>
           <div className="mt-8 max-md:max-w-full">
-            <ExerciseGrid exercises={exercises.slice(0, 3)} />
+            <ExerciseGrid exercises={exercises.slice(0, 3)} onExerciseClick={handleExerciseClick} />
           </div>
           <div className="mt-6 max-md:max-w-full">
-            <ExerciseGrid exercises={exercises.slice(3, 6)} />
+            <ExerciseGrid exercises={exercises.slice(3, 6)} onExerciseClick={handleExerciseClick} />
           </div>
           <div className="mt-6 max-md:max-w-full">
-            <ExerciseGrid exercises={exercises.slice(6)} />
+            <ExerciseGrid exercises={exercises.slice(6)} onExerciseClick={handleExerciseClick} />
           </div>
         </div>
       </div>

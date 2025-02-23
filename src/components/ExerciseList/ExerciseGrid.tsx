@@ -9,15 +9,17 @@ interface Exercise {
 }
 
 interface ExerciseGridProps {
-  exercises: Exercise[];
+  exercises: Array<Exercise>;
+  onExerciseClick: (exercise: Exercise) => void;
 }
 
-const ExerciseGrid: React.FC<ExerciseGridProps> = ({ exercises }) => {
+const ExerciseGrid: React.FC<ExerciseGridProps> = ({ exercises, onExerciseClick }) => {
   return (
     <div className="flex gap-5 max-md:flex-col">
       {exercises.map((exercise, index) => (
         <div
           key={index}
+          onClick={() => onExerciseClick(exercise)}
           className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full"
         >
           <ExerciseCard

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 interface MetricItemProps {
   label: string;
@@ -13,12 +13,37 @@ const MetricItem: React.FC<MetricItemProps> = ({ label, value }) => (
 );
 
 const AdditionalMetrics: React.FC = () => {
-  const metrics: MetricItemProps[] = [
+  const [metrics, setMetrics] = useState<MetricItemProps[]>([
     { label: "VO2 Max", value: "35.5 ml/kg/min" },
     { label: "Stride Length", value: "0.75 m" },
     { label: "Power Output", value: "185 W" },
     { label: "Elevation Gain", value: "45 m" },
-  ];
+  ]);
+
+  useEffect(() => {
+    const updateInterval = setInterval(() => {
+      setMetrics(currentMetrics => currentMetrics.map(metric => {
+        switch (metric.label) {
+          case "VO2 Max":
+            const vo2 = (parseFloat(metric.value) + (Math.random() * 0.4 - 0.2)).toFixed(1);
+            return { ...metric, value: `${vo2} ml/kg/min` };
+          case "Stride Length":
+            const stride = (parseFloat(metric.value) + (Math.random() * 0.1 - 0.05)).toFixed(2);
+            return { ...metric, value: `${stride} m` };
+          case "Power Output":
+            const power = Math.round(parseFloat(metric.value) + (Math.random() * 10 - 5));
+            return { ...metric, value: `${power} W` };
+          case "Elevation Gain":
+            const elevation = Math.round(parseFloat(metric.value) + (Math.random() * 2 - 1));
+            return { ...metric, value: `${elevation} m` };
+          default:
+            return metric;
+        }
+      }));
+    }, 500); 
+
+    return () => clearInterval(updateInterval);
+  }, []);
 
   return (
     <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">

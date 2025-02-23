@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MetricCard from "./MetricCard";
 import ProgressBar from "./ProgressBar";
@@ -8,10 +8,52 @@ import AdditionalMetrics from "./AdditionalMetrics";
 
 const ExercisePage: React.FC = () => {
   const navigate = useNavigate();
+  const [time, setTime] = useState(0);
+  const [heartRate, setHeartRate] = useState(80);
+  const [currentSpeed, setCurrentSpeed] = useState(0);
+  const [distance, setDistance] = useState(0);
+  const [calories, setCalories] = useState(0);
+
+  useEffect(() => {
+    // Timer update
+    const timer = setInterval(() => {
+      setTime(prev => prev + 1);
+    }, 1000);
+  
+    // Metrics update
+    const metricsInterval = setInterval(() => {
+      // Simulate heart rate changes (80-120 BPM)
+      setHeartRate(prev => Math.floor(80 + Math.random() * 40));
+      
+      // Simulate speed changes with only increasing values
+      setCurrentSpeed(prev => {
+        const newSpeed = prev + (Math.random() * 0.5); // Only positive increments
+        return Math.min(10, newSpeed); // Cap at maximum speed of 10
+      });
+      
+      // Update distance based on speed
+      setDistance(prev => prev + (currentSpeed * 0.1));
+      
+      // Update calories
+      setCalories(prev => prev + (currentSpeed * 1));
+    }, 2000);
+  
+    return () => {
+      clearInterval(timer);
+      clearInterval(metricsInterval);
+    };
+  }, [currentSpeed]);
+
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   const handleEndExercise = () => {
-    navigate('/exercise-complete'); // Adjust this path based on your routing configuration
+    navigate('/exercise-complete'); 
   };
+
   return (
     <div className="flex overflow-hidden flex-col bg-white">
       <div className="flex flex-col p-6 w-full bg-gray-900 max-md:px-5 max-md:max-w-full">
@@ -28,7 +70,7 @@ const ExercisePage: React.FC = () => {
             </div>
           </div>
           <div className="text-4xl font-bold leading-none text-blue-500">
-            0:22
+            {formatTime(time)}
           </div>
         </div>
         <div className="mt-8 w-full max-md:mr-1 max-md:max-w-full">
@@ -36,7 +78,7 @@ const ExercisePage: React.FC = () => {
             <MetricCard
               icon="https://cdn.builder.io/api/v1/image/assets/fba9e468e5f04bb09ec724ada98a9a23/24581ae1bcbce5bfc5cd36f371571a1665e993d90f3ed2960beabec3156f0350?apiKey=fba9e468e5f04bb09ec724ada98a9a23&"
               title="Heart Rate"
-              value="93"
+              value={heartRate.toString()}
               unit="BPM"
             />
             <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
@@ -52,13 +94,13 @@ const ExercisePage: React.FC = () => {
                 </div>
                 <div className="flex gap-1.5 self-start mt-2.5 whitespace-nowrap">
                   <div className="text-4xl font-bold leading-none text-white">
-                    4
+                    {currentSpeed.toFixed(1)}
                   </div>
                   <div className="self-start mt-5 text-base text-gray-400">
                     steps/min
                   </div>
                 </div>
-                <ProgressBar value={50} max={342} />
+                <ProgressBar value={currentSpeed} max={30} />
                 <div className="flex gap-5 justify-between mt-2 text-base text-gray-400">
                   <div>0</div>
                   <div>30 (target)</div>
@@ -67,8 +109,8 @@ const ExercisePage: React.FC = () => {
             </div>
             <PerformanceCard
               icon="https://cdn.builder.io/api/v1/image/assets/fba9e468e5f04bb09ec724ada98a9a23/705af78238fc5cef964405765a4a4856ceedbeccc9d5ca8ff262f7015e73eac9?apiKey=fba9e468e5f04bb09ec724ada98a9a23&"
-              distance="0.8m"
-              calories="3 kcal"
+              distance={`${distance.toFixed(1)}m`}
+              calories={`${Math.floor(calories)} kcal`}
             />
           </div>
         </div>

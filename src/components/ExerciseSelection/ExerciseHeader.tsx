@@ -2,23 +2,18 @@ import React from "react";
 
 interface ExerciseHeaderProps {
   title: string;
-  imageSrc: string;
-  imageAlt: string;
+  icon?: React.ReactNode; // Changed imageSrc/Alt to optional icon prop
 }
 
 export const ExerciseHeader: React.FC<ExerciseHeaderProps> = ({
   title,
-  imageSrc,
-  imageAlt,
+  icon, // Use the icon prop
 }) => {
   return (
-    <div className="flex gap-4 self-start text-2xl font-semibold text-black">
-      <img
-        loading="lazy"
-        src={imageSrc}
-        alt={imageAlt}
-        className="object-contain shrink-0 w-10 rounded-lg aspect-square"
-      />
+    // Updated styling: white text, larger font size, align items center
+    <div className="flex gap-4 items-center self-start text-3xl font-semibold text-white">
+      {/* Render the icon if provided */}
+      {icon && <div className="shrink-0">{icon}</div>}
       <div className="flex-auto my-auto">{title}</div>
     </div>
   );

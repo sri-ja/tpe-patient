@@ -4,24 +4,47 @@ import { ExerciseContent } from "./ExerciseContent";
 import { ExerciseGoal } from "./ExerciseGoal";
 import { StartButton } from "./StartButton";
 
+const exerciseImageUrl = "https://i.postimg.cc/CLBgB3Cf/stairclimb.jpg" 
+
 const ExerciseSelection: React.FC = () => {
   return (
-    <div className="flex overflow-hidden flex-col bg-white">
-      <div className="flex flex-col items-center px-20 pt-14 pb-1 bg-zinc-300 max-md:px-5 max-md:max-w-full">
-        <div className="flex flex-col max-w-full w-[600px]">
-          <div className="flex flex-col px-6 pt-6 pb-4 w-full bg-white rounded-2xl border border-indigo-50 border-solid shadow-[0px_20px_25px_rgba(0,0,0,0.1)] max-md:px-5 max-md:max-w-full">
-            <ExerciseHeader
-              title="Climbing Temple Stairs"
-              imageSrc="https://cdn.builder.io/api/v1/image/assets/fba9e468e5f04bb09ec724ada98a9a23/fef237bdfcc35939576dff302faa65a936e44c3c0121c9ac97e8fa5eeedb8b0c?apiKey=fba9e468e5f04bb09ec724ada98a9a23&"
-              imageAlt="Temple stairs icon"
-            />
-            <ExerciseContent
-              description="Challenge yourself with this virtual temple stair climbing exercise designed to enhance motor skills, balance, and coordination. Navigate through ancient temple steps while improving lower body strength and spatial awareness. Perfect for developing precise movement control and building confidence in mobility."
-              duration="10-15 minutes"
-              level="Beginner Level"
-            />
-            <ExerciseGoal goal="Climb 30 steps" previousBest={25} />
+    // Changed background to dark blue and added padding
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-green-200 via-teal-100 to-white p-4">
+      {/* Centered card with max-width */}
+      <div className="flex flex-col max-w-lg w-full bg-teal-500 rounded-2xl shadow-lg overflow-hidden text-white">
+        {/* Header */}
+        <div className="p-6">
+          <ExerciseHeader
+            title="Climbing Temple Stairs"
+            // Using a placeholder icon - replace if a specific one is needed
+            icon={
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /> {/* Example stairs icon */}
+              </svg>
+            }
+          />
+        </div>
+
+        {/* Exercise Image with Interactive Badge */}
+        <div className="relative p-4">
+          <img
+            src={exerciseImageUrl}
+            alt="Exercise"
+            className="w-full h-80 object-cover object-center"
+          />
+          <div className="absolute top-4 right-4 bg-white text-blue-600 font-bold px-3 py-1 rounded-md text-sm shadow">
+            INTERACTIVE GAME
           </div>
+        </div>
+
+        {/* Content Area */}
+        <div className="p-6 flex flex-col gap-4">
+          <ExerciseContent
+            description="Challenge yourself with this virtual stair climbing exercise designed to enhance motor skills, balance, and coordination." // Shortened description
+            duration="10 mins" // Updated duration
+            level="Beginner" // Updated level
+          />
+          <ExerciseGoal goal="Climb 30 steps" /> {/* Removed previousBest */}
           <StartButton />
         </div>
       </div>

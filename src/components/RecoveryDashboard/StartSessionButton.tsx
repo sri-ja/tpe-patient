@@ -10,10 +10,11 @@ const StartSessionButton: React.FC = () => {
 
   return (
     <button
-      className="px-16 py-4 mt-6 mb-0 text-base font-medium text-center text-white bg-blue-500 rounded-xl shadow-[0px_4px_6px_rgba(74,144,226,0.2)] max-md:px-5 max-md:mb-2.5 max-md:max-w-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200"
+      // Updated styles: full width, teal background, adjusted padding/text size, removed specific margins
+      className="w-full px-6 py-4 text-lg font-semibold text-center text-white bg-teal-500 rounded-xl shadow-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50 transition-colors duration-200"
       onClick={handleStartSession}
     >
-      Start a Session
+      Let's go! Click here to start your session.
     </button>
   );
 };

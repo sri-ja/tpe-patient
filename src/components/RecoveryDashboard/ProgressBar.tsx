@@ -5,22 +5,35 @@ interface ProgressBarProps {
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ percentage }) => {
+  // Ensure percentage is within 0-100 range
+  const clampedPercentage = Math.max(0, Math.min(100, percentage));
+
   return (
-    <>
-      <div className="flex flex-col items-start self-center mt-2 max-w-full rounded-xl bg-zinc-100 w-[1192px] max-md:pr-5">
+    <div className="w-full">
+      {/* Progress bar track */}
+      <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+        {/* Progress bar fill */}
         <div
-          className="flex shrink-0 max-w-full h-6 bg-blue-500 rounded-xl"
-          style={{ width: `${percentage}%` }}
+          className="bg-green-500 h-4 rounded-full" // Use rounded-full for pill shape
+          style={{ width: `${clampedPercentage}%` }}
           role="progressbar"
-          aria-valuenow={percentage}
+          aria-valuenow={clampedPercentage}
           aria-valuemin={0}
           aria-valuemax={100}
+          aria-label="Recovery progress" // Added accessibility label
         />
       </div>
-      <div className="self-start mt-2 ml-6 text-sm font-medium text-stone-500 max-md:ml-2.5">
-        {percentage}% Complete
+      {/* Percentage Markers */}
+      <div className="flex justify-between text-sm text-gray-600 mt-2 px-1">
+        <span>0%</span>
+        <span>50%</span>
+        <span>100%</span>
       </div>
-    </>
+      {/* Percentage Text */}
+      <div className="text-center text-lg font-semibold text-gray-800 mt-2">
+        You are almost there! {clampedPercentage}% complete!
+      </div>
+    </div>
   );
 };
 

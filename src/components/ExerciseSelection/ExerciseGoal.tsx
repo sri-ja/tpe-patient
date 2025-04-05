@@ -12,7 +12,7 @@ export const ExerciseGoal: React.FC<ExerciseGoalProps> = ({
   return (
     // Removed container styling (bg, border, padding, margin)
     // Added flex column and gap
-    <div className="flex flex-col gap-2 w-full text-white">
+    <div className="flex flex-col gap-2 w-full text-white bg-teal-600 p-4 rounded-lg shadow-md">
       {/* Today's Goal Title - Increased font size */}
       <div className="text-xl font-semibold">Today's Goal</div>
       {/* Goal with Checkmark Icon */}

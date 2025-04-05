@@ -9,23 +9,27 @@ const exercises = [
     title: "Stair Climbing Practice", // Keeping similar to your example but more general
     description: "Improve leg strength, balance, and endurance",
     duration: "10-20 min",
+    imageUrl: "https://i.postimg.cc/hvB6hGnS/stairs.png",
     icon: "stairs", // Placeholder icon name
   },
   {
     title: "Obstacle Course Navigation",
     description: "Improve motor planning, balance, and coordination",
     duration: "15-25 min",
+    imageUrl: "https://i.postimg.cc/hvQv4pSF/obstacle.png",
     icon: "cone-walk", // Placeholder icon name
   },
   {
     title: "Target Reaching",
-    description: "Improve arm control, coordination, and range of motion",
+    description: "Improve arm control and coordination",
     duration: "15-20 min",
+    imageUrl: "https://i.postimg.cc/8s857M57/target.png",
     icon: "target-arrow", // Placeholder icon name
   },
   {
     title: "Ball Toss Coordination",
     description: "Enhance hand-eye coordination and reaction time",
+    imageUrl: "https://i.postimg.cc/c1vB8WCW/throw.png",
     duration: "10-20 min",
     icon: "ball-catch", // Placeholder icon name
   }

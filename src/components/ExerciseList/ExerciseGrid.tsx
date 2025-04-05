@@ -5,7 +5,7 @@ interface Exercise {
   title: string;
   description: string;
   duration: string;
-  imageUrl?: string; // Keep imageUrl for now, might remove later if icons replace it
+  imageUrl: string; 
   icon: string; // Make icon required
 }
 

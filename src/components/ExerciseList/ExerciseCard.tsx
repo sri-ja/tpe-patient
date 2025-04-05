@@ -4,7 +4,7 @@ interface ExerciseCardProps {
   title: string;
   description: string;
   duration: string;
-  imageUrl?: string;
+  imageUrl: string;
   icon: string; // Add the icon prop
 }
 
@@ -16,9 +16,10 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
   icon, // Destructure icon
 }) => {
 
-  const renderIcon = (iconName: string) => {
-    // Simple placeholder: display the icon name
-    // TODO: Replace with actual icon rendering logic (e.g., import SVGs)
+  const renderIcon = (iconName: string, imageUrl: string) => {
+    if (imageUrl) {
+      return <img src={imageUrl} alt="Exercise" className="w-16 h-16 rounded-lg object-cover" />;
+    }
     return <div className="text-4xl p-4 bg-gray-200 rounded-lg">{iconName}</div>;
   };
 
@@ -27,7 +28,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
     <div className="flex flex-col items-center p-6 text-center rounded-2xl bg-amber-50 shadow-md hover:shadow-lg transition-shadow duration-200">
       {/* Render the icon placeholder */}
       <div className="mb-4">
-        {renderIcon(icon)}
+        {renderIcon(icon, imageUrl)}
       </div>
       {/* Update text styling */}
       <div className="text-xl font-semibold text-gray-800 mb-1">

@@ -5,41 +5,45 @@ interface ExerciseCardProps {
   description: string;
   duration: string;
   imageUrl?: string;
+  icon: string; // Add the icon prop
 }
 
 const ExerciseCard: React.FC<ExerciseCardProps> = ({
   title,
   description,
   duration,
-  imageUrl,
+  imageUrl, // Keep imageUrl prop for now, but don't use it
+  icon, // Destructure icon
 }) => {
+
+  const renderIcon = (iconName: string) => {
+    // Simple placeholder: display the icon name
+    // TODO: Replace with actual icon rendering logic (e.g., import SVGs)
+    return <div className="text-4xl p-4 bg-gray-200 rounded-lg">{iconName}</div>;
+  };
+
   return (
-    <div className="flex flex-col grow pb-4 w-full text-sm leading-none rounded-xl bg-stone-50 max-md:mt-6">
-      <div
-        className="flex shrink-0 h-48 bg-zinc-300"
-        style={
-          imageUrl
-            ? {
-                backgroundImage: `url(${imageUrl})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }
-            : {}
-        }
-      />
-      <div className="flex flex-col items-start px-4 mt-4 w-full">
-        <div className="text-lg font-medium leading-loose text-black">
-          {title}
-        </div>
-        <div className="mt-1 text-stone-500">{description}</div>
-        <div className="flex gap-5 justify-between self-stretch mt-4">
-          <div className="my-auto text-blue-500">{duration}</div>
-          <button className="px-2.5 py-2 text-center text-white bg-blue-500 rounded-lg shadow-[0px_4px_6px_rgba(74,144,226,0.2)] max-md:pr-5">
-            Start Game
-          </button>
-        </div>
+    // Update card styling: background, padding, rounded corners, shadow
+    <div className="flex flex-col items-center p-6 text-center rounded-2xl bg-amber-50 shadow-md hover:shadow-lg transition-shadow duration-200">
+      {/* Render the icon placeholder */}
+      <div className="mb-4">
+        {renderIcon(icon)}
       </div>
-    </div>
+      {/* Update text styling */}
+      <div className="text-xl font-semibold text-gray-800 mb-1">
+        {title}
+      </div>
+      <div className="text-md text-teal-700 mb-2 h-8"> {/* Fixed height for alignment */}
+        {description}
+      </div>
+      <div className="text-md text-gray-600 mb-4 h-5"> {/* Fixed height for alignment */}
+        {duration}
+      </div>
+      {/* Update button styling and text */}
+      <button className="px-6 py-2 font-semibold text-white bg-teal-500 rounded-full hover:bg-teal-600 transition-colors duration-200 shadow-sm">
+        Let's recover!
+      </button>
+    </div> // Correct closing tag for the main card div
   );
 };
 

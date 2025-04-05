@@ -5,7 +5,8 @@ interface Exercise {
   title: string;
   description: string;
   duration: string;
-  imageUrl?: string;
+  imageUrl?: string; // Keep imageUrl for now, might remove later if icons replace it
+  icon: string; // Make icon required
 }
 
 interface ExerciseGridProps {
@@ -15,18 +16,21 @@ interface ExerciseGridProps {
 
 const ExerciseGrid: React.FC<ExerciseGridProps> = ({ exercises, onExerciseClick }) => {
   return (
-    <div className="flex gap-5 max-md:flex-col">
+    // Use CSS Grid for layout: 2 columns on medium screens+, 1 column below
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {exercises.map((exercise, index) => (
+        // Remove fixed width, grid handles sizing
         <div
           key={index}
           onClick={() => onExerciseClick(exercise)}
-          className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full"
+          className="cursor-pointer" // Add cursor pointer for better UX
         >
           <ExerciseCard
             title={exercise.title}
             description={exercise.description}
             duration={exercise.duration}
-            imageUrl={exercise.imageUrl}
+            imageUrl={exercise.imageUrl} // Keep imageUrl for now
+            icon={exercise.icon} // Pass the icon prop
           />
         </div>
       ))}

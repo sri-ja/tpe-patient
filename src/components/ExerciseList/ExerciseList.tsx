@@ -2,55 +2,35 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import ExerciseGrid from "./ExerciseGrid";
 
+// Updated exercise data based on the image
 const exercises = [
+  // == Gross Motor & Mobility ==
   {
-    title: "Climbing Temple Stairs",
-    description: "Enhance motor skills",
-    duration: "10-15 minutes",
+    title: "Stair Climbing Practice", // Keeping similar to your example but more general
+    description: "Improve leg strength, balance, and endurance",
+    duration: "10-20 min",
+    icon: "stairs", // Placeholder icon name
   },
   {
-    title: "Pattern Puzzle",
-    description: "Enhance cognitive abilities",
-    duration: "15-20 minutes",
+    title: "Obstacle Course Navigation",
+    description: "Improve motor planning, balance, and coordination",
+    duration: "15-25 min",
+    icon: "cone-walk", // Placeholder icon name
   },
   {
-    title: "Quick Reflexes",
-    description: "Test your reaction time",
-    duration: "5-10 minutes",
+    title: "Target Reaching",
+    description: "Improve arm control, coordination, and range of motion",
+    duration: "15-20 min",
+    icon: "target-arrow", // Placeholder icon name
   },
   {
-    title: "Focus Flow",
-    description: "Improve concentration",
-    duration: "10-15 minutes",
-  },
-  {
-    title: "Balance Master",
-    description: "Improve coordination",
-    duration: "15-20 minutes",
-  },
-  {
-    title: "Rhythm Flow",
-    description: "Enhance motor skills",
-    duration: "10-15 minutes",
-  },
-  {
-    title: "Strategic Thinking",
-    description: "Boost problem solving",
-    duration: "15-20 minutes",
-  },
-  {
-    title: "Hand-Eye Master",
-    description: "Improve coordination",
-    duration: "10-15 minutes",
-  },
-  {
-    title: "Flexibility Plus",
-    description: "Enhance range of motion",
-    duration: "15-20 minutes",
-  },
+    title: "Ball Toss Coordination",
+    description: "Enhance hand-eye coordination and reaction time",
+    duration: "10-20 min",
+    icon: "ball-catch", // Placeholder icon name
+  }
 ];
-
-const ExerciseSelection: React.FC = () => {
+const ExerciseList: React.FC = () => {
   const navigate = useNavigate();
 
   const handleExerciseClick = (exercise: typeof exercises[0]) => {
@@ -60,28 +40,24 @@ const ExerciseSelection: React.FC = () => {
   };
 
   return (
-    <div className="flex overflow-hidden flex-col pb-7 bg-white">
-      <div className="flex flex-col justify-center px-7 py-4 w-full bg-zinc-300 max-md:px-5 max-md:max-w-full">
-        <div className="flex flex-col px-8 py-8 w-full bg-white rounded-2xl border border-indigo-50 border-solid shadow-[0px_8px_10px_rgba(0,0,0,0.1)] max-md:px-5 max-md:max-w-full">
-          <h1 className="self-start text-2xl font-semibold leading-none text-black">
-            Select an Exercise
-          </h1>
-          <p className="self-start mt-2.5 text-base text-stone-500">
-            Choose from our collection of prescribed exercises
-          </p>
-          <div className="mt-8 max-md:max-w-full">
-            <ExerciseGrid exercises={exercises.slice(0, 3)} onExerciseClick={handleExerciseClick} />
-          </div>
-          <div className="mt-6 max-md:max-w-full">
-            <ExerciseGrid exercises={exercises.slice(3, 6)} onExerciseClick={handleExerciseClick} />
-          </div>
-          <div className="mt-6 max-md:max-w-full">
-            <ExerciseGrid exercises={exercises.slice(6)} onExerciseClick={handleExerciseClick} />
-          </div>
+    // Apply gradient background and adjust padding
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-teal-100 via-green-100 to-white p-8">
+      {/* Center content */}
+      <div className="w-full max-w-4xl mx-auto">
+        {/* Update title and subtitle */}
+        <h1 className="text-4xl font-bold text-center text-gray-800">
+          Treat yourself to a powerful workout!
+        </h1>
+        <p className="mt-2 text-lg text-center text-teal-700">
+          Choose one accelerate your journey to recovery
+        </p>
+        {/* Render all exercises in a single grid */}
+        <div className="mt-10">
+          <ExerciseGrid exercises={exercises} onExerciseClick={handleExerciseClick} />
         </div>
       </div>
     </div>
   );
 };
 
-export default ExerciseSelection;
+export default ExerciseList;

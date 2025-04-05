@@ -16,7 +16,7 @@ function App() {
           <Route path="/exercise-list" element={<ExerciseList />} />
           <Route path="/exercise-details/:exerciseId" element={<ExerciseSelection />} />
           <Route path="/exercise" element={<ExercisePage />} />
-          <Route path="/exercise-complete" element={<ExerciseComplete stepsClimbed={0} timeTaken={"08:45"} averageSpeed={"29 steps/minute"} isPersonalBest={true} />}/>
+          <Route path="/exercise-complete" element={<ExerciseComplete stepsClimbed={200} timeTaken={"08:45"} averageSpeed={"29 steps/minute"} isPersonalBest={true} />}/>
         </Routes>
       </div>
     </Router>

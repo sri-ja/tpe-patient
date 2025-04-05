@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react"; // Import useState and useEffect
 import { useNavigate } from "react-router-dom";
+import Confetti from 'react-confetti'; // Import Confetti
 import StatCard from "./StatCard";
 import PerformanceStat from "./PerformanceStat";
 
 interface ExerciseCompleteProps {
-  stepsClimbed: number;
-  timeTaken: string;
-  averageSpeed: string;
+  stepsClimbed: number; // Renamed from heartClimbed for clarity, assuming steps
+  timeTaken: string; // e.g., "08:45"
+  averageSpeed: string; // e.g., "29 steps/minute"
   isPersonalBest: boolean;
+  exerciseName?: string; // Optional: To display "Temple Climb Complete!"
 }
 
 const ExerciseComplete: React.FC<ExerciseCompleteProps> = ({
@@ -15,73 +17,135 @@ const ExerciseComplete: React.FC<ExerciseCompleteProps> = ({
   timeTaken,
   averageSpeed,
   isPersonalBest,
+  exerciseName = "Exercise", // Default exercise name
 }) => {
   const navigate = useNavigate();
+  const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [showConfetti, setShowConfetti] = useState(true);
+
+  // Effect to get window size
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener('resize', handleResize);
+    // Cleanup listener on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Effect to stop confetti after a delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowConfetti(false);
+    }, 20000); // Stop confetti after 20 seconds
+
+    // Cleanup timer on unmount
+    return () => clearTimeout(timer);
+  }, []);
+
 
   const handleReturn = () => {
-    navigate('/');
+    navigate('/'); // Navigate to dashboard or appropriate route
   };
+
+  // Using light theme styles inspired by RecoveryDashboard and ExerciseList
   return (
-    <div className="flex overflow-hidden flex-col bg-white">
-      <div className="flex flex-col justify-center items-center px-20 py-20 bg-zinc-300 max-md:px-5 max-md:max-w-full">
-        <div className="flex flex-col py-8 max-w-full bg-white rounded-2xl border border-indigo-50 border-solid shadow-[0px_8px_10px_rgba(0,0,0,0.1)] w-[600px]">
-          <div className="flex flex-col px-8 w-full max-md:px-5 max-md:max-w-full">
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/fba9e468e5f04bb09ec724ada98a9a23/625d2997ba7a1f9fccf7b5119d287e91cfba8e3a0ead214f9bfd0fbe1515353a?apiKey=fba9e468e5f04bb09ec724ada98a9a23&"
-              className="object-contain self-center w-20 rounded-lg aspect-square"
-              alt="Temple Climb Logo"
-            />
-            <h1 className="self-start mt-8 ml-9 text-2xl font-semibold text-center text-black max-md:ml-2.5">
-              Temple Climb Complete!
-            </h1>
-            <div className="p-6 mt-6 rounded-xl bg-stone-50 max-md:px-5 max-md:max-w-full">
-              <div className="flex gap-5 max-md:flex-col">
-                <StatCard
-                  title="Steps Climbed"
-                  value={`${stepsClimbed} steps`}
-                />
-                <StatCard title="Time Taken" value={timeTaken} />
-              </div>
-            </div>
-            <div className="flex flex-col items-start py-6 pr-16 pl-6 mt-6 w-full text-sm rounded-lg bg-stone-50 text-stone-500 max-md:px-5 max-md:max-w-full">
-              <h2 className="text-base font-medium text-black">
-                Performance Stats
-              </h2>
-              <PerformanceStat
-                iconSrc="https://cdn.builder.io/api/v1/image/assets/fba9e468e5f04bb09ec724ada98a9a23/26227b9e054b1db504fa4a17b25b579b3f71f63d6cfd3deac6b0bb34caf12c98?apiKey=fba9e468e5f04bb09ec724ada98a9a23&"
-                text={`Average speed: ${averageSpeed}`}
-              />
-              {isPersonalBest && (
-                <PerformanceStat
-                  iconSrc="https://cdn.builder.io/api/v1/image/assets/fba9e468e5f04bb09ec724ada98a9a23/f21609f58963d936306aa7a5be8570414beb6511ffa05c33eb908f10c18e75b3?apiKey=fba9e468e5f04bb09ec724ada98a9a23&"
-                  text="New personal best time!"
-                />
-              )}
-            </div>
-            <p className="self-center mt-6 text-lg text-center text-blue-500">
-              Excellent Climb!
-            </p>
-            <p className="self-center mt-2.5 text-sm text-center text-stone-500">
-              You're getting stronger each day
-            </p>
-          </div>
-          <button 
-            onClick={handleReturn}
-            className="flex flex-col justify-center items-center px-16 py-3 mx-8 mt-6 text-base font-medium text-center text-white bg-blue-500 rounded-xl shadow-[0px_4px_6px_rgba(74,144,226,0.2)] max-md:px-5 max-md:mr-2.5 max-md:max-w-full"
-          >
-            <div className="flex gap-9 w-56 max-w-full">
-              <span className="grow shrink w-[164px]">Return to Dashboard</span>
-              <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/fba9e468e5f04bb09ec724ada98a9a23/83f8029fff518f71d2211ab61c7b5b217f9ee5717e56d7e1ddfa661936c6cad8?apiKey=fba9e468e5f04bb09ec724ada98a9a23&"
-                className="object-contain shrink-0 my-auto w-5 aspect-square"
-                alt=""
-              />
-            </div>
-          </button>
-        </div>
+    // Main container with light gradient background and padding
+    // Added relative positioning for confetti overlay
+    <div className="relative flex flex-col items-center min-h-screen bg-gradient-to-b from-green-100 via-teal-100 to-white p-8">
+       {/* Confetti Overlay */}
+       {showConfetti && (
+         <Confetti
+           width={windowSize.width}
+           height={windowSize.height}
+           recycle={false} // Set to false so it stops after pieces fall
+           numberOfPieces={200} // Adjust number of pieces
+           gravity={0.1} // Adjust gravity
+         />
+       )}
+      {/* Checkmark Icon - Adjusted for light theme */}
+      <div className="bg-green-500 p-4 rounded-full mb-6 shadow-md z-10"> {/* Added z-10 to keep above confetti */}
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
       </div>
+
+      {/* Main Title - Adjusted text color */}
+      <h1 className="text-4xl font-bold text-gray-800 mb-2 text-center z-10"> {/* Added z-10 */}
+        Awesome Work!
+      </h1>
+      {/* Subtitle - Adjusted text color */}
+      <p className="text-lg text-teal-700 mb-8 text-center z-10"> {/* Added z-10 */}
+        {exerciseName} Complete!
+      </p>
+
+      {/* Stat Cards Section - Using white background cards */}
+      <div className="flex flex-col md:flex-row gap-6 w-full max-w-2xl mb-8 z-10"> {/* Added z-10 */}
+        {/* StatCard components will be updated separately */}
+        <StatCard
+          title="Steps Climbed"
+          value={stepsClimbed.toString()}
+        />
+        <StatCard title="Time Taken" value={timeTaken} />
+      </div>
+
+      {/* Performance Stats Section - Using white background card */}
+      <div className="flex flex-col p-6 rounded-xl bg-white w-full max-w-2xl mb-8 shadow-md z-10"> {/* Added z-10 */}
+        {/* Adjusted title color */}
+        <h2 className="text-xl font-semibold text-gray-800 mb-3">
+          Performance Stats
+        </h2>
+        {/* Use ul for list items, removed default list styles */}
+        <ul className="space-y-1"> {/* Removed list-disc list-inside */}
+          {/* PerformanceStat with Speed Icon */}
+          <PerformanceStat
+            icon={
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /> {/* Simple lightning bolt for speed */}
+              </svg>
+            }
+            text={`Average speed: ${averageSpeed}`}
+          />
+          {/* PerformanceStat with Star Icon and Highlight for Personal Best */}
+          {isPersonalBest && (
+            <PerformanceStat
+              icon={
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /> {/* Star icon */}
+                </svg>
+              }
+              text="New personal best time!"
+              highlight={true} // Enable highlighting
+            />
+          )}
+        </ul>
+      </div>
+
+      {/* Enhanced Motivational Message Section with Background */}
+      {/* Added padding, light background, rounded corners, and subtle shadow */}
+      <div className="flex flex-col items-center text-center rounded-lg bg-teal-50 shadow-sm mb-10 z-10 w-full max-w-md">
+        {/* Trophy Icon */}
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-yellow-500 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+           <path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v3a3 3 0 01-3 3z" /> {/* Trophy Icon */}
+        </svg>
+        {/* Main Motivational Text - Larger and using accent color */}
+        <p className="text-3xl font-bold text-teal-600 mb-2">
+          Fantastic Effort!
+        </p>
+        {/* Sub-text */}
+        <p className="text-md text-gray-700">
+          Keep it up and get even better
+        </p>
+      </div>
+
+
+      {/* Return Button - Adjusted for light theme (e.g., teal button) */}
+      <button
+        onClick={handleReturn}
+        className="px-8 py-3 bg-teal-600 text-white text-lg font-semibold rounded-xl shadow-md hover:bg-teal-700 transition-colors z-10" // Added z-10
+      >
+        Back to Dashboard
+      </button>
     </div>
   );
 };

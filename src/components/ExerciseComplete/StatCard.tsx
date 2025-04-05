@@ -6,12 +6,13 @@ interface StatCardProps {
 }
 
 const StatCard: React.FC<StatCardProps> = ({ title, value }) => {
+  // Applying light theme: white background, gray text
   return (
-    <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
-      <div className="flex flex-col grow items-start py-4 pr-12 pl-4 w-full bg-white rounded-lg shadow-[0px_1px_2px_rgba(0,0,0,0.1)] max-md:pr-5 max-md:mt-10">
-        <div className="text-sm text-stone-500">{title}</div>
-        <div className="mt-2 text-2xl font-semibold text-black">{value}</div>
-      </div>
+    <div className="flex flex-col flex-1 px-6 py-4 bg-white rounded-xl shadow-md text-center">
+      {/* Title text color adjusted */}
+      <div className="text-sm text-gray-600">{title}</div>
+      {/* Value text color and size adjusted */}
+      <div className="mt-1 text-3xl font-bold text-gray-800">{value}</div>
     </div>
   );
 };

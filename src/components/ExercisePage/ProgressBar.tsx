@@ -6,13 +6,18 @@ interface ProgressBarProps {
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ value, max }) => {
+  // Calculate percentage, ensuring it doesn't exceed 100%
+  const percentage = Math.min(100, Math.max(0, (value / max) * 100));
+
   return (
-    <div className="flex flex-col items-start mt-5 max-w-full bg-gray-700 rounded-lg w-[342px] max-md:pr-5">
+    // Keep light gray background, full width
+    <div className="w-full mt-3 bg-gray-200 rounded-full h-2.5 overflow-hidden"> 
       <div
-        className="flex shrink-0 h-2 bg-blue-500 rounded-lg"
-        style={{ width: `${(value / max) * 100}%` }}
+        // Changed fill color to teal for theme consistency
+        className="h-2.5 bg-teal-500 rounded-full transition-width duration-300 ease-in-out" 
+        style={{ width: `${percentage}%` }}
       />
-    </div>
+    </div> 
   );
 };
 

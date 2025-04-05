@@ -14,25 +14,32 @@ const MetricCard: React.FC<MetricCardProps> = ({
   unit,
 }) => {
   return (
-    <div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
-      <div className="flex flex-col items-start pt-6 pr-20 pb-28 pl-6 mx-auto w-full bg-gray-800 rounded-2xl border border-gray-700 border-solid shadow-[0px_4px_6px_rgba(0,0,0,0.1)] max-md:px-5 max-md:pb-24 max-md:mt-6">
-        <div className="flex gap-3 text-base text-gray-200">
+    // Use flex-1 for flexible width, add min-width for smaller screens
+    <div className="flex flex-col flex-1 min-w-[280px]"> 
+      {/* Consistent card styling: white bg, rounded-xl, shadow-md, padding */}
+      <div className="flex flex-col grow p-6 w-full bg-white rounded-xl shadow-md"> 
+        {/* Increased title size and weight */}
+        <div className="flex gap-3 items-center text-lg font-medium text-gray-700"> 
           <img
             loading="lazy"
             src={icon}
-            className="object-contain shrink-0 w-6 aspect-square"
+            // Ensure icon size is appropriate
+            className="object-contain shrink-0 w-6 h-6 aspect-square"
             alt={`${title} icon`}
           />
           <div>{title}</div>
         </div>
-        <div className="flex gap-2 mt-2.5 whitespace-nowrap">
-          <div className="grow text-4xl font-bold leading-none text-white">
+        {/* Adjusted alignment and spacing */}
+        <div className="flex gap-1.5 items-baseline mt-2 whitespace-nowrap"> 
+          {/* Increased value size, changed color to teal */}
+          <div className="text-5xl font-bold leading-none text-teal-600"> 
             {value}
           </div>
-          <div className="self-start mt-5 text-base text-gray-400">{unit}</div>
+          {/* Increased unit size */}
+          <div className="text-lg text-gray-600">{unit}</div> 
         </div>
       </div>
-    </div>
+    </div> 
   );
 };
 

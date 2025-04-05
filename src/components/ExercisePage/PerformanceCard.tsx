@@ -12,35 +12,46 @@ const PerformanceCard: React.FC<PerformanceCardProps> = ({
   calories,
 }) => {
   return (
-    <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-      <div className="flex grow gap-5 justify-between items-start pt-6 pr-20 pb-20 pl-6 w-full bg-gray-800 rounded-2xl border border-gray-700 border-solid shadow-[0px_4px_6px_rgba(0,0,0,0.1)] max-md:px-5 max-md:mt-6">
-        <div className="flex flex-col items-start self-start whitespace-nowrap">
-          <div className="flex gap-3 self-stretch text-base text-gray-200">
-            <img
-              loading="lazy"
-              src={icon}
-              className="object-contain shrink-0 w-6 aspect-square"
-              alt="Performance icon"
-            />
-            <div className="grow shrink w-[99px]">Performance</div>
-          </div>
-          <div className="mt-4 text-sm leading-none text-gray-400">
-            Distance
-          </div>
-          <div className="text-2xl font-bold leading-none text-white">
-            {distance}
-          </div>
+    // Use flex-1 for flexible width, add min-width
+    <div className="flex flex-col flex-1 min-w-[280px]"> 
+      {/* Consistent card styling: white bg, rounded-xl, shadow-md, padding */}
+      <div className="flex grow flex-col p-6 w-full bg-white rounded-xl shadow-md"> 
+        {/* Increased title size and weight */}
+        <div className="flex gap-3 items-center text-lg font-medium text-gray-700"> 
+          <img
+            loading="lazy"
+            src={icon}
+            // Ensure icon size is appropriate
+            className="object-contain shrink-0 w-6 h-6 aspect-square"
+            alt="Performance icon"
+          />
+          <div className="grow shrink">Performance</div> 
         </div>
-        <div className="flex flex-col self-end mt-10">
-          <div className="self-start text-sm leading-none text-gray-400">
-            Calories
+        {/* Adjusted layout, spacing, and font sizes */}
+        <div className="flex justify-between mt-4"> 
+          <div>
+            {/* Increased label size */}
+            <div className="text-base text-gray-600"> 
+              Distance
+            </div>
+            {/* Increased value size */}
+            <div className="mt-1 text-3xl font-semibold text-gray-800"> 
+              {distance}
+            </div>
           </div>
-          <div className="text-2xl font-bold leading-none text-white">
-            {calories}
+          <div className="text-right"> 
+            {/* Increased label size */}
+            <div className="text-base text-gray-600"> 
+              Calories
+            </div>
+            {/* Increased value size */}
+            <div className="mt-1 text-3xl font-semibold text-gray-800"> 
+              {calories}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </div> 
   );
 };
 

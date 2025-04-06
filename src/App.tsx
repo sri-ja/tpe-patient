@@ -6,20 +6,24 @@ import ExerciseList from './components/ExerciseList/ExerciseList';
 import ExerciseSelection from './components/ExerciseSelection/ExerciseSelection';
 import ExercisePage from './components/ExercisePage/ExercisePage';
 import ExerciseComplete from './components/ExerciseComplete/ExerciseComplete';
+import { PatientProvider } from './context/patientContext';
+
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<RecoveryDashboard />} />
-          <Route path="/exercise-list" element={<ExerciseList />} />
-          <Route path="/exercise-details/:exerciseId" element={<ExerciseSelection />} />
-          <Route path="/exercise" element={<ExercisePage />} />
-          <Route path="/exercise-complete" element={<ExerciseComplete stepsClimbed={200} timeTaken={"08:45"} averageSpeed={"29 steps/minute"} isPersonalBest={true} />}/>
-        </Routes>
-      </div>
-    </Router>
+    <PatientProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<RecoveryDashboard />} />
+            <Route path="/exercise-list" element={<ExerciseList />} />
+            <Route path="/exercise-details/:exerciseId" element={<ExerciseSelection />} />
+            <Route path="/exercise/:exerciseId" element={<ExercisePage />} />
+            <Route path="/exercise-complete" element={<ExerciseComplete />} />
+          </Routes>
+        </div>
+      </Router>
+    </PatientProvider>
   );
 }
 

@@ -1,17 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export const StartButton: React.FC = () => {
+interface StartButtonProps {
+  exerciseId: string;
+  exerciseData: any; // Exercise data object
+}
+
+export const StartButton: React.FC<StartButtonProps> = ({ exerciseId, exerciseData }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/exercise'); // Replace with your actual exercise page route
+    // Navigate to exercise page with exercise data in state
+    navigate(`/exercise/${exerciseId}`, { 
+      state: { 
+        exercise: exerciseData,
+        startTime: new Date().toISOString()
+      } 
+    });
   };
 
   return (
     <button
       onClick={handleClick}
-      // Updated styling: brighter blue, full width, uppercase bold text, more padding, hover effect
       className="w-full bg-green-600 hover:bg-green-400 text-white font-bold py-4 px-6 rounded-lg text-lg transition duration-200 ease-in-out"
     >
       Start Exercise

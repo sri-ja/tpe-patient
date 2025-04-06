@@ -1,44 +1,74 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ExerciseGrid from "./ExerciseGrid";
+import { usePatient } from "../../context/patientContext";
 
-// Updated exercise data based on the image
-const exercises = [
-  // == Gross Motor & Mobility ==
-  {
-    title: "Stair Climbing Practice", // Keeping similar to your example but more general
-    description: "Improve leg strength, balance, and endurance",
-    duration: "10-20 min",
-    imageUrl: "https://i.postimg.cc/hvB6hGnS/stairs.png",
-    icon: "stairs", // Placeholder icon name
-  },
-  {
-    title: "Obstacle Course Navigation",
-    description: "Improve motor planning, balance, and coordination",
-    duration: "15-25 min",
-    imageUrl: "https://i.postimg.cc/hvQv4pSF/obstacle.png",
-    icon: "cone-walk", // Placeholder icon name
-  },
-  {
-    title: "Target Reaching",
-    description: "Improve arm control and coordination",
-    duration: "15-20 min",
-    imageUrl: "https://i.postimg.cc/8s857M57/target.png",
-    icon: "target-arrow", // Placeholder icon name
-  },
-  {
-    title: "Ball Toss Coordination",
-    description: "Enhance hand-eye coordination and reaction time",
-    imageUrl: "https://i.postimg.cc/c1vB8WCW/throw.png",
-    duration: "10-20 min",
-    icon: "ball-catch", // Placeholder icon name
-  }
-];
+interface Exercise {
+  id: string;
+  name: string;
+  type: string;
+  description: string;
+  image: {
+    thumbnail: string;
+    banner: string;
+  };
+  targetBodyParts: string[];
+  difficulty: string;
+  estimatedDuration: string;
+  goals: Record<string, any>;
+  customizationOptions: Record<string, any>;
+}
+
 const ExerciseList: React.FC = () => {
   const navigate = useNavigate();
+  const { patientDetails, isLoading: patientLoading } = usePatient();
+  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleExerciseClick = (exercise: typeof exercises[0]) => {
-    navigate(`/exercise-details/${exercise.title.toLowerCase().replace(/\s+/g, '-')}`, {
+  useEffect(() => {
+    const fetchExercises = async () => {
+      setIsLoading(true);
+      setError(null);
+      
+      try {
+        if (!patientDetails) {
+          setExercises([]);
+          return;
+        }
+        
+        // Get the active prescription IDs from patient details
+        const { activePrescriptionIds } = patientDetails.treatmentPlan;
+        
+        if (!activePrescriptionIds.length) {
+          setExercises([]);
+          return;
+        }
+        
+        // Fetch exercises for this patient
+        const response = await fetch(`http://localhost:5000/api/exercises/patient/${patientDetails.id}`)
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch exercises');
+        }
+        
+        const data = await response.json();
+        setExercises(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    // Only fetch if patient data is loaded
+    if (!patientLoading) {
+      fetchExercises();
+    }
+  }, [patientDetails, patientLoading]);
+
+  const handleExerciseClick = (exercise: Exercise) => {
+    navigate(`/exercise-details/${exercise.name.toLowerCase().replace(/\s+/g, '-')}`, {
       state: { exercise }
     });
   };
@@ -55,10 +85,34 @@ const ExerciseList: React.FC = () => {
         <p className="mt-2 text-lg text-center text-teal-700">
           Choose one accelerate your journey to recovery
         </p>
-        {/* Render all exercises in a single grid */}
-        <div className="mt-10">
-          <ExerciseGrid exercises={exercises} onExerciseClick={handleExerciseClick} />
-        </div>
+        
+        {/* Show loading state */}
+        {isLoading && (
+          <div className="mt-10 text-center">
+            <p className="text-xl text-gray-600">Loading your exercises...</p>
+          </div>
+        )}
+        
+        {/* Show error message if any */}
+        {error && (
+          <div className="mt-10 text-center">
+            <p className="text-xl text-red-600">Error: {error}</p>
+          </div>
+        )}
+        
+        {/* Show message if no exercises */}
+        {!isLoading && !error && exercises.length === 0 && (
+          <div className="mt-10 text-center">
+            <p className="text-xl text-gray-600">No exercises found in your treatment plan.</p>
+          </div>
+        )}
+        
+        {/* Render exercises if available */}
+        {!isLoading && !error && exercises.length > 0 && (
+          <div className="mt-10">
+            <ExerciseGrid exercises={exercises} onExerciseClick={handleExerciseClick} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,15 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProgressBar from "./ProgressBar";
 import Leaderboard from "./Leaderboard";
 import NextAppointment from "./NextAppointment";
 import StartSessionButton from "./StartSessionButton"; // Will likely rename/refactor this later
+import { usePatient } from "../../context/patientContext"; // Assuming you have a context for patient data
 
-// Placeholder data - ideally fetched from an API or context
-const patientName = "Alex";
-const recoveryPercentage = 65;
-const remainingPercentage = 100 - recoveryPercentage;
 
 const RecoveryDashboard: React.FC = () => {
+  const { patientDetails, fetchPatientById, isLoading, error } = usePatient();
+  
+  // Add this effect to fetch data when component mounts
+  useEffect(() => {
+    // Replace '123' with actual patient ID (could come from auth or params)
+    fetchPatientById('p-123456')
+    console.log("Fetching patient data");
+  }, [fetchPatientById]);
+
+  // Add loading state
+  if (isLoading) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gradient-to-b from-green-200 via-teal-100 to-white px-4 sm:px-6 lg:px-8 py-8 justify-center items-center">
+        <div className="text-2xl font-semibold">Loading patient data...</div>
+      </div>
+    );
+  }
+
+  // Add error state
+  if (error) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gradient-to-b from-green-200 via-teal-100 to-white px-4 sm:px-6 lg:px-8 py-8 justify-center items-center">
+        <div className="text-2xl font-semibold text-red-600">Error: {error}</div>
+        <button 
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md"
+          onClick={() => fetchPatientById('p-123456')} // Retry fetching patient data
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
+
+  const patientName = patientDetails?.personalInfo.firstName || "Patient"; // Fallback to "Patient" if name is not available
+  const recoveryPercentage = patientDetails?.recoveryStatus.overallProgress || 0; // Fallback to 0 if not available
+  const remainingPercentage = (100 - recoveryPercentage).toFixed(2); // Calculate remaining percentage
   return (
     // Main container with gradient background
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-green-200 via-teal-100 to-white px-4 sm:px-6 lg:px-8 py-8">

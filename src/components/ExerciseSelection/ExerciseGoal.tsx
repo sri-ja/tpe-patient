@@ -7,11 +7,9 @@ interface ExerciseGoalProps {
 
 export const ExerciseGoal: React.FC<ExerciseGoalProps> = ({
   goal,
-  // previousBest is no longer used in the rendering based on the new design
+  previousBest
 }) => {
   return (
-    // Removed container styling (bg, border, padding, margin)
-    // Added flex column and gap
     <div className="flex flex-col gap-2 w-full text-white bg-teal-600 p-4 rounded-lg shadow-md">
       {/* Today's Goal Title - Increased font size */}
       <div className="text-xl font-semibold">Today's Goal</div>
@@ -23,7 +21,16 @@ export const ExerciseGoal: React.FC<ExerciseGoalProps> = ({
         </svg>
         <span className="text-xl">{goal}</span>
       </div>
-      {/* Removed Previous Best display */}
+      
+      {/* Show previous best if available */}
+      {previousBest && (
+        <div className="flex items-center gap-2 text-sm mt-2 text-teal-100">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Previous best: {previousBest}</span>
+        </div>
+      )}
     </div>
   );
 };
